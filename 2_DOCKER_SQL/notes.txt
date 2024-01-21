@@ -12,4 +12,10 @@ sudo chmod -R 777 ny_taxi_postgres_data/
 
 pgcli -h localhost -p 5432 -u root -d ny_taxi
 
+source data:
 https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet
+
+
+webs:
+https://stackoverflow.com/questions/33813815/how-to-read-a-parquet-file-into-pandas-dataframe
+https://blog.clairvoyantsoft.com/efficient-processing-of-parquet-files-in-chunks-using-pyarrow-b315cc0c62f9
