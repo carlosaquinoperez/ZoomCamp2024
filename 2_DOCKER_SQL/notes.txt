@@ -6,8 +6,7 @@ docker run -it \
   -e POSTGRES_DB="ny_taxi" \
   -v $(pwd)/ny_taxi_postgres_data:/var/lib/postgresql/data \
   -p 5432:5432 \
-  --network=pg_network \
-  --name pg-database \
+
   postgres:13
 
 sudo chmod -R 777 ny_taxi_postgres_data/
@@ -25,7 +24,6 @@ https://blog.clairvoyantsoft.com/efficient-processing-of-parquet-files-in-chunks
 Docker container:
 docker pull dpage/pgadmin4
 
-
 docker run -it \
   -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
   -e PGADMIN_DEFAULT_PASSWORD="root" \
@@ -35,3 +33,22 @@ docker run -it \
 
 Resolve error open postgres web, execute:
 docker network create pg-network
+
+** Create docker postgres with the same network than pgadmin
+docker run -it \
+  -e POSTGRES_USER="root" \
+  -e POSTGRES_PASSWORD="root" \
+  -e POSTGRES_DB="ny_taxi" \
+  -v $(pwd)/ny_taxi_postgres_data:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  --network=pg-network \
+  --name pg-database \
+  postgres:13
+
+docker run -it \
+  -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+  -e PGADMIN_DEFAULT_PASSWORD="root" \
+  -p 8080:80 \
+  --network=pg-network \
+  --name pgadmin \
+  dpage/pgadmin4
