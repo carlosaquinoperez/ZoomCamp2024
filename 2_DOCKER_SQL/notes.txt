@@ -11,3 +11,5 @@ docker run -it \
 sudo chmod -R 777 ny_taxi_postgres_data/
 
 pgcli -h localhost -p 5432 -u root -d ny_taxi
+
+https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet
