@@ -25,12 +25,15 @@ def main(params):
 
     engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{db}')
 
-    chunk_size = 100000
     parquet_file = pq.ParquetFile(parquet_name)
 
-    # for create table on postgres
-    parquet_file.head(n=0).to_sql(name=table_name, con=engine, if_exists='replace')
+    for i in parquet_file.iter_batches(batch_size=100000):
+        chunk_df = i.to_pandas()
 
+    # for create table on postgres
+    chunk_df.head(n=0).to_sql(name=table_name, con=engine, if_exists='replace')
+
+    chunk_size = 100000
     for batch in parquet_file.iter_batches(batch_size=chunk_size):
         t_start = time()
         table = pa.Table.from_batches([batch])
